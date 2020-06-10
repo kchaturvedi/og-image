@@ -84,7 +84,7 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .spacer {
-        margin: 150px;
+        margin: 120px;
     }
 
     .emoji {
@@ -92,6 +92,14 @@ function getCss(theme: string, fontSize: string) {
         width: 1em;
         margin: 0 .05em 0 .1em;
         vertical-align: -0.1em;
+    }
+    
+    .subheading {
+        font-family: 'Inter', sans-serif;
+        font-size: '75px';
+        font-style: normal;
+        color: ${foreground};
+        line-height: 1.8;
     }
     
     .heading {
@@ -105,6 +113,8 @@ function getCss(theme: string, fontSize: string) {
 
 export function getHtml(parsedReq: ParsedRequest) {
     const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const main = text.split('|')[0]
+    const header = text.split('|')[1]
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -121,9 +131,10 @@ export function getHtml(parsedReq: ParsedRequest) {
                     getPlusSign(i) + getImage(img, widths[i], heights[i])
                 ).join('')}
             </div>
+            <div class="subheading" style="font-size: 75px; font-family: Inter, sans-serif;">${header ? header.toUpperCase() : ''}</div>
             <div class="spacer">
             <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
+                md ? marked(main) : sanitizeHtml(main)
             )}
             </div>
         </div>
